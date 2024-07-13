@@ -203,11 +203,11 @@ if __name__ == "__main__":
     # Optional parameters
 
     batch_size=10
-    rate=30
-    ref_idx=0 # Template index in sorted array
-    Test_mode=False , if True, consider slice of array
-    start_idx=0
-    end_idx=11
+    rate=30 #frame rate
+    ref_idx=0 # Template index in the sorted array (reference image for correlation), default is first imgage
+    Test_mode=False # If True, consider a slice of the array considered
+    start_idx=0 # If Test mode is True, starting index in the sorted array slice 
+    end_idx=11 #if the Test mode is True, the ending index of the sorted array slice
     '''
 
     main(search_fold,filter_name,logo_paths)
