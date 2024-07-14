@@ -14,7 +14,7 @@ import numpy as np
 from PIL import Image
 import ImagesToMovie_pkg
 
-def main(search_fold,filter_name,logo_paths,batch_size=10,rate=30,ref_idx=0,Test_mode=False,start_idx=0,end_idx=21):
+def suit_co_align_fd_imgs(search_fold,filter_name,logo_paths,batch_size=10,rate=30,ref_idx=0,Test_mode=False,start_idx=0,end_idx=21):
     global base_fold
     start = timeit.default_timer()
     now = datetime.datetime.now() - timedelta(days=1)
@@ -210,4 +210,4 @@ if __name__ == "__main__":
     end_idx=11
     '''
 
-    main(search_fold,filter_name,logo_paths)
+    suit_co_align_fd_imgs(search_fold,filter_name,logo_paths)
