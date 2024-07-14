@@ -80,7 +80,7 @@ def create_directories(fl_date):
     fol_nm = f'{base_fold}/{str(fl_date.day).zfill(2)}_{str(fl_date.month).zfill(2)}_{str(fl_date.year).zfill(2)}'
     jpg_fold = f'{fol_nm}/FD_imgs'
     algn_dir = f'{fol_nm}/Aligned_Fits'
-    video_fold=f'{fol_nm}/Website_Movies'
+    video_fold=f'{base_fold}/Website_Movies'
     
     pathlib.Path(jpg_fold).mkdir(parents=True, exist_ok=True)
     pathlib.Path(algn_dir).mkdir(parents=True, exist_ok=True)
@@ -116,8 +116,8 @@ def process_batch(files, ref_submap, logo_paths, jpg_fold):
         # Image enhancement
         limb_enh_data = enhance_image(aligned_maps[j], img_head)
         aligned_img = sunpy.map.Map(aligned_maps[j].data, img_head)
-        aln_imgs.append(os.path.basename(files[k]))  # element is added to sequence not original file list so k is correct than j
-        fl_nm = f'{jpg_fold}/{os.path.basename(files[k])[:-4]}jpg'
+        aln_imgs.append(os.path.basename(files[j]))  # element is added to sequence not original file list so k is correct than j
+        fl_nm = f'{jpg_fold}/{os.path.basename(files[j])[:-4]}jpg'
         save_image(aligned_img, logo_paths, fl_nm)
 
     return o_x, o_y, o_d, od, x_arry, y_arry, aln_imgs
@@ -192,7 +192,7 @@ def create_movie(jpg_fold, fl_date,rate=30):
     ImagesToMovie_pkg.Make_movie(jpg_fold, movie_name, rate)
 
 if __name__ == "__main__":
-    search_fold = '/scratch/suit_data/level1.1fits/2024/07/03/normal_2k/'  # Custom Folder
+    search_fold = '/scratch/suit_data/level1.1fits/2024/07/02/normal_2k/'  # Custom Folder
     filter_name = 'NB03'
     logo_paths = {
         "logo1": '/data/sreejith/MCNS_POC/Daily_Movies/suit_white.png',
@@ -203,11 +203,11 @@ if __name__ == "__main__":
     # Optional parameters
 
     batch_size=10
-    rate=30 #frame rate
-    ref_idx=0 # Template index in the sorted array (reference image for correlation), default is first imgage
-    Test_mode=False # If True, consider a slice of the array considered
-    start_idx=0 # If Test mode is True, starting index in the sorted array slice 
-    end_idx=11 #if the Test mode is True, the ending index of the sorted array slice
+    rate=30
+    ref_idx=0 # Template index in sorted array
+    Test_mode=False , if True, consider slice of array
+    start_idx=0
+    end_idx=11
     '''
 
     main(search_fold,filter_name,logo_paths)
