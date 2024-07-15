@@ -71,7 +71,7 @@ def get_submap(ref_img):
     height =300 * u.arcsec   
     
     ref_img.meta.update({'CROTA2':0})
-    print('rot',ref_img.meta.get('CROTA2')) 
+    #print('rot',ref_img.meta.get('CROTA2')) 
     offset_frame = SkyOffsetFrame(origin=center_coord, rotation=0*u.deg)
     rectangle = SkyCoord(lon=[-1/2, 1/2] * width, lat=[-1/2, 1/2] * height, frame=offset_frame)
     ref_submap = ref_img.submap(rectangle) #bottom_left, top_right=top_right)
@@ -79,12 +79,7 @@ def get_submap(ref_img):
     fig = plt.figure()
     ax = fig.add_subplot(111, projection=ref_submap)
     ref_submap.plot(axes=ax)
-    ref_submap.draw_quadrangle(
-        rectangle,
-        axes=ax,
-        edgecolor="red",
-        linestyle="--",
-        linewidth=2,)
+    
     plt.savefig('Template.jpg')
     #plt.show()
     plt.close()
