@@ -1,9 +1,9 @@
 ![](Assests/suit_github.png)
-# SUIT Co-Align Full Disc Images
+## SUIT Co-Align Full Disc Images
 
 This package is designed to co-align SUIT 2k images using the image cross-correlation method. It produces co-aligned images and movies for PR purposes and returns a CSV file with the shift values applied to each image. Additionally, aligned FITS images can be produced.
 
-## Features
+### Features
 
 - **Co-alignment**: Co-align SUIT 2k images using the cross-correlation method.
 - **Outputs**:
@@ -11,7 +11,12 @@ This package is designed to co-align SUIT 2k images using the image cross-correl
   - Movies for PR purposes.
   - CSV file of shift values applied for each image.
   - Option to produce aligned FITS images.
-- **Future Development**: Co-alignment for ROIs (Region of Interests) will be added soon.
+#### **Under Development**: 
+- Co-alignment for ROIs (Region of Interests) will be added soon.
+- Flux conserved Image Rotation
+- Drift correction for ROIs
+- NB03 Difference movie
+- Compare L1 images to Earth observer frame
 
 ## Installation
 
