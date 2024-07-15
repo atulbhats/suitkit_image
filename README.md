@@ -20,10 +20,10 @@ logo_paths = {
     }
 
 ###### Optional parameters
-batch_size=10  #default is 10
-rate=30 #set the framerate of the output video
-ref_idx=0 #Template index in sorted array for the cross corellation
-Test_mode=False , if True, consider slice of array, will get you the sample output for the images between images of index start_idx to end_idx
-start_idx=0
-end_idx=11
+batch_size=10  #default is 10\
+rate=30 #set the framerate of the output video\
+ref_idx=0 #Template index in the sorted array for the cross correlation\
+Test_mode=False , if True, consider slice of array, will get you the sample output for the images between images of index start_idx to end_idx\
+start_idx=0\
+end_idx=11\
 
