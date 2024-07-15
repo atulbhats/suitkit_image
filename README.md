@@ -52,3 +52,11 @@ suit_co_align_fd_imgs.main(
     start_idx=0,    # Optional: Start index for test mode
     end_idx=11      # Optional: End index for test mode
 )
+```
+
+### Authors
+- Adithya H. N.
+- Sreejith P.
+
+### Contact
+- *Adithyabhattsringeri@gmail.com*
