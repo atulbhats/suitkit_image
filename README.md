@@ -1,4 +1,4 @@
-![](Assets/suit_github.png)
+![](Assests/suit_github.png)
 # SUIT Co-Align Full Disc Images
 
 This package is designed to co-align SUIT 2k images using the image cross-correlation method. It produces co-aligned images and movies for PR purposes and returns a CSV file with the shift values applied to each image. Additionally, aligned FITS images can be produced.
