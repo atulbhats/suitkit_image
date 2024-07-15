@@ -7,11 +7,11 @@
 - co align ROIs (will be added soon)
 
 ## Usage
-Pull this GitHub repository along with dependency files.\
+Pull this GitHub repository along with dependency files.
 
-import suit_co_align_imgs.suit_co_align_fd_imgs\
+import suit_co_align_imgs.suit_co_align_fd_imgs
 
-search_fold = 'path/to/2k/images/directory'\
+search_fold = 'path/to/2k/images/directory'
 filter_name = 'NB03' # or 'NB04' ,  based on the availablity\
 logo_paths = {
         "logo1": 'path/to/suit_white.png',
