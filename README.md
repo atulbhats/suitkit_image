@@ -20,7 +20,7 @@ Pull this GitHub repository along with the required dependency files.
 ## Usage
 
 ```python
-import suit_co_align_imgs.suit_co_align_fd_imgs
+import suitkit_image.suit_co_align_fd_imgs
 
 # Set the directory containing the 2k images
 search_fold = 'path/to/2k/images/directory'
