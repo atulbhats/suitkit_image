@@ -64,8 +64,8 @@ def get_sorted_files(search_fold, filter_name):
     return files
 
 def get_submap(ref_img):
-    top_right = SkyCoord(550 * u.arcsec, 1100 * u.arcsec, frame=ref_img.coordinate_frame)
-    bottom_left = SkyCoord(-550 * u.arcsec, 800 * u.arcsec, frame=ref_img.coordinate_frame)
+    top_right = SkyCoord(550 * u.arcsec, 1050 * u.arcsec, frame=ref_img.coordinate_frame)
+    bottom_left = SkyCoord(-700 * u.arcsec, 850 * u.arcsec, frame=ref_img.coordinate_frame)
     ref_submap = ref_img.submap(bottom_left, top_right=top_right)
     
     fig = plt.figure()
