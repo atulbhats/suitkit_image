@@ -1,29 +1,48 @@
-# SUIT Co align full disc images
---------
-- Co-align SUIT 2k images using the image cross-correlation method.
-- Package will produce the coaligned images and movies for PR purposes.
-- Will return the CSV file of the shift value applied for each image.
-- An aligned FITS image can also be produced.
-- co align ROIs (will be added soon)
+# SUIT Co-Align Full Disc Images
+
+This package is designed to co-align SUIT 2k images using the image cross-correlation method. It produces co-aligned images and movies for PR purposes and returns a CSV file with the shift values applied to each image. Additionally, aligned FITS images can be produced.
+
+## Features
+
+- **Co-alignment**: Co-align SUIT 2k images using the cross-correlation method.
+- **Outputs**:
+  - Co-aligned images.
+  - Movies for PR purposes.
+  - CSV file of shift values applied for each image.
+  - Option to produce aligned FITS images.
+- **Future Development**: Co-alignment for ROIs (Region of Interests) will be added soon.
+
+## Installation
+
+Pull this GitHub repository along with the required dependency files.
 
 ## Usage
-Pull this GitHub repository along with dependency files.
 
+```python
 import suit_co_align_imgs.suit_co_align_fd_imgs
 
+# Set the directory containing the 2k images
 search_fold = 'path/to/2k/images/directory'
-filter_name = 'NB03' # or 'NB04' ,  based on the availablity\
+
+# Specify the filter name ('NB03' or 'NB04' based on availability)
+filter_name = 'NB03'
+
+# Define paths to logo images
 logo_paths = {
-        "logo1": 'path/to/suit_white.png',
-        "logo2": 'path/to/sun_iucaa.png',
-        "logo3": 'path/to/iucaaisro.png'
-    }
+    "logo1": 'path/to/suit_white.png',
+    "logo2": 'path/to/sun_iucaa.png',
+    "logo3": 'path/to/iucaaisro.png'
+}
 
-###### Optional parameters
-batch_size=10  #default is 10\
-rate=30 #set the framerate of the output video\
-ref_idx=0 #Template index in the sorted array for the cross correlation\
-Test_mode=False, if True, consider a slice of the array, will get you the sample output for the images between images of index start_idx to end_idx\
-start_idx=0\
-end_idx=11\
-
+# Call the main function to start the co-alignment process
+suit_co_align_fd_imgs.main(
+    search_fold=search_fold,
+    filter_name=filter_name,
+    logo_paths=logo_paths,
+    batch_size=10,   # Optional: default is 10
+    rate=30,        # Optional: set the frame rate of the output video
+    ref_idx=0,      # Optional: Template index in the sorted array for cross-correlation
+    Test_mode=False, # Optional: If True, processes a slice of the array for testing
+    start_idx=0,    # Optional: Start index for test mode
+    end_idx=11      # Optional: End index for test mode
+)
