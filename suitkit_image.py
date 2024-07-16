@@ -1,8 +1,11 @@
 '''
 Created on 2 June 2024
+
 @Author: Adithya H.N.
 
-Modification History
+Modification History:
+
+- Variable to toggle Logo. 16 Jul 2024 - @atulbhats
 
 '''
 
@@ -22,7 +25,7 @@ import numpy as np
 from PIL import Image
 import ImagesToMovie_pkg
 
-def suit_co_align_fd_imgs(search_fold,filter_name,logo_paths,batch_size=10,rate=30,ref_idx=0,Save_fits=False,Test_mode=False,start_idx=0,end_idx=21):
+def suit_co_align_fd_imgs(search_fold,filter_name,add_logos,batch_size=10,rate=30,ref_idx=0,Save_fits=False,test_mode=False,start_idx=0,end_idx=21):
     global base_fold
     start = timeit.default_timer()
     now = datetime.datetime.now() - timedelta(days=1)
@@ -30,10 +33,9 @@ def suit_co_align_fd_imgs(search_fold,filter_name,logo_paths,batch_size=10,rate=
     print(f'Searching for {filter_name} images in {search_fold} folder')
     #print('Path: ',os.getcwd())
     base_fold=os.getcwd()
-
-    # Fetch and sort files
+    Fetch and sort files
     files = get_sorted_files(search_fold, filter_name)
-    if Test_mode:
+    if test_mode:
         files=files[start_idx:end_idx]
     print('Total files:', len(files))
 
@@ -48,7 +50,7 @@ def suit_co_align_fd_imgs(search_fold,filter_name,logo_paths,batch_size=10,rate=
 
     for i in range(0, len(files), batch_size):
         batch_files = [files[0]] + files[i:i + batch_size]
-        batch_results = process_batch(batch_files, ref_submap, logo_paths, jpg_fold,Save_fits,algn_dir)
+        batch_results = process_batch(batch_files, ref_submap, add_logos, jpg_fold,Save_fits,algn_dir)
         o_x.extend(batch_results[0])
         o_y.extend(batch_results[1])
         o_d.extend(batch_results[2])
@@ -109,7 +111,7 @@ def create_directories(fl_date,Save_fits):
     
     return fol_nm, jpg_fold, algn_dir
 
-def process_batch(files, ref_submap, logo_paths, jpg_fold,Save_fits,algn_dir):
+def process_batch(files, ref_submap, add_logos, jpg_fold,Save_fits,algn_dir):
     o_x, o_y, o_d, od, x_arry, y_arry, aln_imgs = [], [], [], [], [], [], []
     ref_head=ref_submap.fits_header
     ref_cdel=ref_head['CDELT1']
@@ -143,7 +145,7 @@ def process_batch(files, ref_submap, logo_paths, jpg_fold,Save_fits,algn_dir):
 
         aln_imgs.append(os.path.basename(files[j]))  # element is added to sequence not original file list so k is correct than j
         fl_nm = f'{jpg_fold}/{os.path.basename(files[j])[:-4]}jpg'
-        save_image(aligned_img, logo_paths, fl_nm)
+        save_image(aligned_img, add_logos, fl_nm)
 
     return o_x, o_y, o_d, od, x_arry, y_arry, aln_imgs
 
@@ -171,27 +173,35 @@ def create_circular_mask(h, w, col, row, radius):
     mask = dist_from_center <= radius
     return mask
 
-def save_image(aligned_img, logo_paths, fl_nm):
+def save_image(aligned_img, add_logos, fl_nm):
     fig = plt.figure(figsize=(10, 10))
     ax = fig.add_subplot(111, projection=aligned_img)
     aligned_img.plot(title=False, cmap=filterColor['NB03'], vmin=np.percentile(aligned_img.data,1), vmax=np.percentile(aligned_img.data, 99.5))
     plot_str = str(aligned_img.date) + '          ' + 'NB03 Mg II k 279 nm'
     
-    logo_image3 = Image.open(logo_paths['logo3'])  # suit_logo, top left
-    logo_image2 = Image.open(logo_paths['logo2'])  # sun at iucaa top right
-    logo_image1 = Image.open(logo_paths['logo1'])  # suitlogo bottom right
+    if add_logos == 1:
+        logo_paths = {
+            #Picking Up Relevant Logos.
+            "logo1": '/assets/suit_white.png',
+            "logo2": '/assets/sun_iucaa.png',
+            "logo3": '/assets/iucaaisro.png'
+        }
+        logo_image3 = Image.open(logo_paths['logo3'])  # suit_logo, top left
+        logo_image2 = Image.open(logo_paths['logo2'])  # sun at iucaa top right
+        logo_image1 = Image.open(logo_paths['logo1'])  # suitlogo bottom right
 
-    logo_image3 = logo_image3.resize((100, 76))  # Adjust the size as needed
-    logo_image2 = logo_image2.resize((53, 53))
-    logo_image1 = logo_image1.resize((73, 50))
+        logo_image3 = logo_image3.resize((100, 76))  # Adjust the size as needed
+        logo_image2 = logo_image2.resize((53, 53))
+        logo_image1 = logo_image1.resize((73, 50))
 
-    logo_image1 = np.array(logo_image1)
-    logo_image2 = np.array(logo_image2)
-    logo_image3 = np.array(logo_image3)
+        logo_image1 = np.array(logo_image1)
+        logo_image2 = np.array(logo_image2)
+        logo_image3 = np.array(logo_image3)
 
-    fig.figimage(logo_image1, xo=880, yo=20, zorder=3, alpha=1)
-    fig.figimage(logo_image2, xo=890, yo=890, zorder=3, alpha=1)
-    fig.figimage(logo_image3, xo=12, yo=880, zorder=3, alpha=1)
+        fig.figimage(logo_image1, xo=880, yo=20, zorder=3, alpha=1)
+        fig.figimage(logo_image2, xo=890, yo=890, zorder=3, alpha=1)
+        fig.figimage(logo_image3, xo=12, yo=880, zorder=3, alpha=1)
+
     ax.text(50, 50, plot_str, color='white', weight='bold', fontsize=18)
 
     plt.draw()
@@ -217,22 +227,19 @@ def create_movie(jpg_fold, fl_date,rate=30):
     ImagesToMovie_pkg.Make_movie(jpg_fold, movie_name, rate)
 
 if __name__ == "__main__":
-    search_fold = '/scratch/suit_data/level1.1fits/2024/07/02/normal_2k/'  # Custom Folder
+    search_fold = '/path/to/2k_images/'  # Custom Folder
     filter_name = 'NB03'
-    logo_paths = {
-        "logo1": '/data/sreejith/MCNS_POC/Daily_Movies/suit_white.png',
-        "logo2": '/data/sreejith/MCNS_POC/Daily_Movies/sun_iucaa.png',
-        "logo3": '/data/sreejith/MCNS_POC/Daily_Movies/iucaaisro.png'
-    }
+    add_logos = 1
+    
     '''
-    # Optional parameters
+    # Other Optional parameters
 
     batch_size=10
     rate=30
     ref_idx=0 # Template index in sorted array
-    Test_mode=False , if True, consider slice of array
+    test_mode=False , if True, consider slice of array
     start_idx=0
     end_idx=11
     '''
 
-    suit_co_align_fd_imgs(search_fold,filter_name,logo_paths)
+    suit_co_align_fd_imgs(search_fold,filter_name,add_logos)
